@@ -2,7 +2,7 @@ import { Response, Request } from "express";
 const express = require("express");
 import authRouter from "./routes/auth/auth";
 import privateRouter from "./routes/private/private";
-import * as mongoose from "mongoose";
+const mongoose = require("mongoose");
 import middleware from "./middleware/protect";
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
