@@ -81,9 +81,14 @@ router.post("/login", async (req: Request, res: Response) => {
       .status(400)
       .json({ error: "Please fill all fields", data: null });
 
+  // Triming unnecessary spaces and lowering all cases
+  const modifiedUsername = username.trim().toLowerCase();
+
   try {
     // Search user by provided suername in the base, if no users found, error will be returned
-    const foundUser = await User.findOne({ username }).select("+password");
+    const foundUser = await User.findOne({ username: modifiedUsername }).select(
+      "+password"
+    );
     if (!foundUser)
       return res.status(404).json({ error: "User doesn't exist", data: null });
 
