@@ -33,7 +33,7 @@ const useStyles = makeStyles(themes => ({
 
 const PrivateScreen: React.FC<IProps> = ({data}) => {
 
-    const { user, userCount } = data;
+    const { user } = data;
 
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -76,7 +76,7 @@ const PrivateScreen: React.FC<IProps> = ({data}) => {
         })
         return () => {
             socket.off('message')};
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className={classes.container}>

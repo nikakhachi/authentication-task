@@ -46,7 +46,7 @@ function PrivateRoute({component: Component}: IProps){
             }
         }
         authorize();
-    }, []);
+    }, [dispatch]);
 
     return <Route exact path='/' render={() => 
     loading

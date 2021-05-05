@@ -4,6 +4,9 @@
   "description": "authentication page",
   "main": "server.js",
   "scripts": {
+    "install-server": "npm install",
+    "install-client": "npm install --prefix client",
+    "install-modules": "concurrently \"npm run install-server\" \"npm run install-client\"",
     "start": "ts-node server.ts",
     "server": "ts-node-dev --respawn server.ts",
     "client": "npm start --prefix client",
