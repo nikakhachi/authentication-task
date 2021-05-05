@@ -16,7 +16,7 @@ function addCookie(res: Response, token: string) {
   });
 }
 
-// @Route - /api/auth/register
+// @Route - POST /api/auth/register
 // @Access - Public
 // @Function - Registers the user
 router.post("/register", async (req: Request, res: Response) => {
@@ -68,7 +68,7 @@ router.post("/register", async (req: Request, res: Response) => {
   }
 });
 
-// @Route - /api/auth/login
+// @Route - POST /api/auth/login
 // @Access - Public
 // @Function - Authenticates the user
 router.post("/login", async (req: Request, res: Response) => {
@@ -109,6 +109,9 @@ router.post("/login", async (req: Request, res: Response) => {
   }
 });
 
+// @Route - POST /api/auth/logout
+// @Access - Public
+// @Function - Removes jwt cookie
 router.post("/logout", (req: Request, res: Response) => {
   addCookie(res, "Expired Token");
   res.status(200).json({ msg: "Logged out successfuly" });
