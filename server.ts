@@ -53,6 +53,10 @@ if (process.env.NODE_ENV === "production") {
   app.get("*", (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, "client", "build", "index.html"));
   });
+} else {
+  app.get("/", (req: Request, res: Response) => {
+    res.send("DEVELOPMENT ENVIRONMENT");
+  });
 }
 
 const PORT = process.env.PORT;
