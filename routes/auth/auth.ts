@@ -5,6 +5,8 @@ import IUserLogin from "../../interfaces/userLogin";
 
 import User from "../../models/User";
 
+import { sendMessage } from "../../utils/socket-io";
+
 function addCookie(res: Response, token: string) {
   res.cookie("jwt", token, {
     secure: true,
@@ -48,6 +50,9 @@ router.post("/register", async (req: Request, res: Response) => {
     // Generating Token and inserting into cookies
     const token = await savedUser.generateToken();
     addCookie(res, token);
+
+    const userCount = await User.countDocuments();
+    if (userCount === 4) sendMessage("message", "You’re lucky person :)");
 
     res.status(201).json({
       error: null,

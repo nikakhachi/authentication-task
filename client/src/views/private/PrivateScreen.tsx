@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
+import io from 'socket.io-client';
 
 interface IProps {
     data: {
@@ -11,6 +12,12 @@ interface IProps {
         userCount: number
     }
 }
+
+interface ISocketMessage {
+    text: string;
+}
+
+let socket: any;
 
 const useStyles = makeStyles(themes => ({
     container: {
@@ -44,26 +51,46 @@ const PrivateScreen: React.FC<IProps> = ({data}) => {
         history.push('/login');
     }
 
+    // Connection to Socket.io
     useEffect(() => {
-        if(userCount > 3){
+        socket = io.connect('/', {query:`user=${user.username}&room=general`});
+        socket.emit('join', { user, room: 'general'}, () => {
+        });
+        return () => {
+            socket.disconnect();
+            socket.off();
+        }
+    }, [user]);
+
+
+    // If 3 or more users are registrated. On every user registration, other connected users will see a popup
+    useEffect(() => {
+        socket.on('message', (message: ISocketMessage) => {
             dispatch({
                 type: 'SNACKBAR_PRINT',
                 payload: {
                     type: 'info',
-                    text: 'You’re lucky person :)'
+                    text: message.text
                 }
             });
-        }
-    }, [userCount]);
+        })
+        return () => {
+            socket.off('message')};
+    }, []);
 
     return (
         <div className={classes.container}>
-            <Typography variant='h2'>
+
+            {/* After Registration, user will only see Welcome message, but after second and more logins 
+                User will see login count */}
+            {user.loginCount === 1 
+            ? <Typography variant='h2'>
                 Welcome <span className={classes.username}>{user.username}</span> !
-            </Typography>
-            <Typography variant='h4'>
+                </Typography>
+            : <Typography variant='h4'>
                 It's your {user.loginCount}th log in
-            </Typography>
+              </Typography>
+            }
             <Button onClick={() => handleLogout()} className={classes.button} variant='contained' color='primary'>
                 LOG OUT
             </Button>

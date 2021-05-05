@@ -6,13 +6,18 @@ import middleware from "./middleware/protect";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import path from "path";
+import http from "http";
+import { socketConnection } from "./utils/socket-io";
 
 require("dotenv").config({ path: "./config.env" });
 
 const app = express();
+const server = http.createServer(app);
 
 app.use(express.json());
 app.use(cookieParser());
+
+socketConnection(server);
 
 const sessionConfig = {
   secret: process.env.SESSION_SECRET!,
@@ -51,4 +56,4 @@ if (process.env.NODE_ENV === "production") {
 }
 
 const PORT = process.env.PORT;
-app.listen(PORT, () => console.log(`Server running on PORT: ${PORT}`));
+server.listen(PORT, () => console.log(`Server running on PORT: ${PORT}`));
