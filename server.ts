@@ -1,4 +1,4 @@
-import { Response, Request } from "express";
+import { Response, Request, Application } from "express";
 const express = require("express");
 import authRouter from "./routes/auth/auth";
 import privateRouter from "./routes/private/private";
@@ -12,7 +12,7 @@ import { socketConnection } from "./utils/socket-io";
 
 require("dotenv").config({ path: "./config.env" });
 
-const app = express();
+const app: Application = express();
 const server = http.createServer(app);
 
 app.use(express.json());

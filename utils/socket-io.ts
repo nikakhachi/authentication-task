@@ -1,8 +1,9 @@
 import { Socket } from "socket.io";
+import * as http from "http";
 
 let io: any;
 
-export const socketConnection = (server: any) => {
+export const socketConnection = (server: http.Server) => {
   io = require("socket.io")(server);
   io.on("connection", (socket: Socket) => {
     console.log(`Client connected [id=${socket.id}]`);
