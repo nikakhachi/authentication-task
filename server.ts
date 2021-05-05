@@ -29,7 +29,12 @@ app.use(session(sessionConfig));
 
 mongoose.connect(
   process.env.MONGO_URI!,
-  { useUnifiedTopology: true, useCreateIndex: true, useNewUrlParser: true },
+  {
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useFindAndModify: false,
+  },
   () => console.log("MongoDB Connected")
 );
 
