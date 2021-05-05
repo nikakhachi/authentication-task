@@ -11,7 +11,7 @@ router.get("/", async (req: Request, res: Response) => {
       { $inc: { loginCount: 1 } },
       { new: true }
     );
-    const count = await User.count();
+    const count = await User.countDocuments();
     res.json({ error: null, data: { user: updatedUser, userCount: count } });
   } catch (error) {
     console.log(error);
