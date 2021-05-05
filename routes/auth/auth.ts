@@ -1,4 +1,5 @@
-import express, { Request, Response } from "express";
+import { Response, Request } from "express";
+const express = require("express");
 const router = express.Router();
 import IUserRegister from "../../interfaces/userRegister";
 import IUserLogin from "../../interfaces/userLogin";

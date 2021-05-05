@@ -1,9 +1,9 @@
-import mongoose, { Schema } from "mongoose";
+import * as mongoose from "mongoose";
 import IUserModel from "../interfaces/userModel";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import * as bcrypt from "bcryptjs";
+import * as jwt from "jsonwebtoken";
 
-const UserSchema: Schema = new Schema(
+const UserSchema: mongoose.Schema = new mongoose.Schema(
   {
     username: { type: String, required: true },
     password: { type: String, required: true, select: false },

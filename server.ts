@@ -1,12 +1,13 @@
-import express, { Response, Request } from "express";
+import { Response, Request } from "express";
+const express = require("express");
 import authRouter from "./routes/auth/auth";
 import privateRouter from "./routes/private/private";
-import mongoose from "mongoose";
+import * as mongoose from "mongoose";
 import middleware from "./middleware/protect";
-import cookieParser from "cookie-parser";
-import session from "express-session";
-import path from "path";
-import http from "http";
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+import * as path from "path";
+import * as http from "http";
 import { socketConnection } from "./utils/socket-io";
 
 require("dotenv").config({ path: "./config.env" });
