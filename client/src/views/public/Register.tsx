@@ -11,6 +11,8 @@ import { useHistory } from 'react-router-dom';
 
 import { IResponse } from '../../utils/interfaces';
 
+import { Observable } from 'rxjs';
+
 
 interface SubmitProps {
   username: string;
@@ -25,18 +27,47 @@ export default function Login() {
   const history = useHistory();
 
   async function handleSubmit(values: SubmitProps){
-    try {
-      const { data }: IResponse = await axios.post('/api/auth/register', values);
-      if(data) history.push('/');
-    } catch (error) {
-      dispatch({
+
+    // try {
+    //   const { data }: IResponse = await axios.post('/api/auth/register', values);
+    //   if(data) history.push('/');
+    // } catch (error) {
+    //   dispatch({
+    //     type: 'SNACKBAR_PRINT',
+    //     payload: {
+    //       type: 'error',
+    //       text: error.response.data.error
+    //     }
+    //   })
+    // }
+
+    let observable$ = Observable.create( ( observer: any ) => {
+      axios.post('/api/auth/register', values)
+      .then((response) => {
+          observer.next(response.data);
+          observer.complete(response.data);
+      })
+      .catch((error) => {
+          observer.error(error.response.data.error);
+      });
+    });
+    observable$.subscribe({
+      next: (data: IResponse) => history.push('/'),
+      complete: (data: IResponse) => dispatch({
+        type: 'SNACKBAR_PRINT',
+        payload: {
+          type: 'info',
+          text: 'Registered Successfully'
+        }
+      }),
+      error: (error: string) => dispatch({
         type: 'SNACKBAR_PRINT',
         payload: {
           type: 'error',
-          text: error.response.data.error
+          text: error
         }
-      })
-    }
+      }),
+    });
   }
 
   return (
